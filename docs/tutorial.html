@@ -1,0 +1,517 @@
+<title>Fliip vs Flipper Zero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --ground: #F6F1E9;
+    --surface: #FFFFFF;
+    --surface-2: #F0E9DD;
+    --ink: #1C1815;
+    --ink-soft: #4A423A;
+    --ink-faint: #7C7267;
+    --line: #E0D6C6;
+    --line-strong: #C9BCA6;
+    --accent: #D9560A;
+    --accent-ink: #FFFFFF;
+    --accent-wash: #FBE8D8;
+    --yes: #1E7A3E;
+    --yes-wash: #E2F0E4;
+    --partial: #9A6B00;
+    --partial-wash: #F5EACF;
+    --no: #B23524;
+    --no-wash: #F5DED9;
+    --shadow: 0 1px 2px rgba(28,24,21,.05), 0 8px 24px rgba(28,24,21,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #121010;
+      --surface: #1B1817;
+      --surface-2: #232019;
+      --ink: #ECE6DC;
+      --ink-soft: #BEB4A6;
+      --ink-faint: #8A8073;
+      --line: #322D27;
+      --line-strong: #4A4238;
+      --accent: #FF6A00;
+      --accent-ink: #17120C;
+      --accent-wash: #33220F;
+      --yes: #5FD68A;
+      --yes-wash: #16281C;
+      --partial: #E4B23D;
+      --partial-wash: #2E2510;
+      --no: #FF7A66;
+      --no-wash: #2E1712;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #121010;
+    --surface: #1B1817;
+    --surface-2: #232019;
+    --ink: #ECE6DC;
+    --ink-soft: #BEB4A6;
+    --ink-faint: #8A8073;
+    --line: #322D27;
+    --line-strong: #4A4238;
+    --accent: #FF6A00;
+    --accent-ink: #17120C;
+    --accent-wash: #33220F;
+    --yes: #5FD68A;
+    --yes-wash: #16281C;
+    --partial: #E4B23D;
+    --partial-wash: #2E2510;
+    --no: #FF7A66;
+    --no-wash: #2E1712;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- Hero ---- */
+  header.hero {
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(120% 90% at 92% -10%, var(--accent-wash) 0%, transparent 55%),
+      var(--ground);
+  }
+  .hero-inner { padding: 56px 0 44px; }
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before {
+    content: ""; width: 30px; height: 2px; background: var(--accent); display: inline-block;
+  }
+  h1 {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -.01em;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+  h1 .vs { color: var(--accent); }
+  .lede {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0 0 28px;
+  }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+  }
+  .tag {
+    padding: 5px 11px; border: 1px solid var(--line-strong); border-radius: 999px;
+    color: var(--ink-soft); background: var(--surface);
+  }
+
+  /* ---- Ethics banner ---- */
+  .ethics {
+    margin: 28px 0 0;
+    border: 1px solid var(--accent);
+    border-left-width: 4px;
+    border-radius: 10px;
+    background: var(--accent-wash);
+    padding: 18px 20px;
+  }
+  .ethics h2 {
+    font-family: "Chakra Petch", sans-serif; font-size: 1rem; margin: 0 0 6px;
+    letter-spacing: .01em; text-transform: uppercase;
+  }
+  .ethics p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+  .ethics strong { color: var(--ink); }
+
+  /* ---- Section scaffolding ---- */
+  section { padding: 52px 0 8px; }
+  .sec-head { margin: 0 0 26px; }
+  .sec-num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px; letter-spacing: .2em; color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  h2.sec-title {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600; font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+    margin: 6px 0 8px; letter-spacing: -.005em; text-wrap: balance;
+  }
+  .sec-sub { color: var(--ink-soft); margin: 0; max-width: 64ch; }
+
+  /* ---- Capability matrix ---- */
+  .matrix-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); background: var(--surface); }
+  table.matrix { width: 100%; border-collapse: collapse; min-width: 620px; }
+  table.matrix thead th {
+    text-align: left; font-family: "IBM Plex Mono", monospace; font-weight: 500;
+    font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-faint); padding: 14px 16px; border-bottom: 1px solid var(--line-strong);
+    background: var(--surface-2);
+  }
+  table.matrix thead th.dev { text-align: center; width: 116px; }
+  table.matrix td { padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.matrix tr:last-child td { border-bottom: none; }
+  .cap-name { font-weight: 600; }
+  .cap-freq { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-faint); }
+  .cap-note { color: var(--ink-soft); font-size: .9rem; }
+  td.dev { text-align: center; }
+  .chip {
+    display: inline-block; font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: .04em;
+    padding: 4px 9px; border-radius: 6px; white-space: nowrap;
+  }
+  .chip.yes { color: var(--yes); background: var(--yes-wash); }
+  .chip.partial { color: var(--partial); background: var(--partial-wash); }
+  .chip.no { color: var(--no); background: var(--no-wash); }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 14px 2px 0; font-size: .85rem; color: var(--ink-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .dot.yes { background: var(--yes); } .dot.partial { background: var(--partial); } .dot.no { background: var(--no); }
+
+  /* ---- Labs ---- */
+  .labs { display: flex; flex-direction: column; gap: 18px; }
+  .lab {
+    border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
+    padding: 22px 24px; box-shadow: var(--shadow);
+  }
+  .lab-top { display: flex; align-items: baseline; gap: 14px; margin: 0 0 10px; flex-wrap: wrap; }
+  .lab-idx {
+    font-family: "Chakra Petch", sans-serif; font-weight: 700;
+    font-size: 1.3rem; color: var(--accent); line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .lab-title { font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 1.2rem; margin: 0; flex: 1 1 auto; }
+  .lab-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .05em;
+    padding: 3px 8px; border-radius: 5px; border: 1px solid var(--line-strong); color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .badge.mod { color: var(--accent); border-color: var(--accent); }
+  .lab p { margin: 0 0 12px; color: var(--ink-soft); }
+  .lab ol, .lab ul { margin: 0 0 12px; padding-left: 20px; color: var(--ink-soft); }
+  .lab li { margin: 5px 0; }
+  .lab li::marker { color: var(--accent); font-family: "IBM Plex Mono", monospace; }
+  .lab code, code.inline {
+    font-family: "IBM Plex Mono", monospace; font-size: .86em;
+    background: var(--surface-2); padding: 1.5px 6px; border-radius: 5px; color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .takeaway {
+    margin: 12px 0 0; padding: 12px 14px; border-left: 3px solid var(--accent);
+    background: var(--surface-2); border-radius: 0 8px 8px 0; font-size: .92rem;
+  }
+  .takeaway b { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 2px; }
+
+  /* ---- Two-column info blocks ---- */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+  .panel { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 22px 24px; box-shadow: var(--shadow); }
+  .panel h3 { font-family: "Chakra Petch", sans-serif; margin: 0 0 14px; font-size: 1.15rem; }
+  .kit { list-style: none; margin: 0; padding: 0; }
+  .kit li { display: flex; justify-content: space-between; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .kit li:last-child { border-bottom: none; }
+  .kit .k { color: var(--ink); font-weight: 500; }
+  .kit .k small { display: block; color: var(--ink-faint); font-weight: 400; font-size: .82rem; }
+  .kit .price { font-family: "IBM Plex Mono", monospace; font-size: .85rem; color: var(--ink-soft); white-space: nowrap; }
+
+  /* ---- Glossary ---- */
+  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 32px; }
+  @media (max-width: 720px) { .glossary { grid-template-columns: 1fr; } }
+  .term { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .term dt { font-family: "IBM Plex Mono", monospace; font-weight: 600; color: var(--accent); font-size: .9rem; }
+  .term dd { margin: 3px 0 0; color: var(--ink-soft); font-size: .92rem; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 56px; padding: 28px 0 60px; color: var(--ink-faint); font-size: .85rem; }
+  footer p { margin: 4px 0; }
+  a { color: var(--accent); }
+</style>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">Bancada &middot; hacking ético em casa</p>
+    <h1>Fliip <span class="vs">vs</span> Flipper&nbsp;Zero</h1>
+    <p class="lede">O que dá pra estudar só com o celular e o app Fliip &mdash; e onde o Flipper Zero ganha por ter rádios que o telefone não tem. Guia honesto, com laboratórios práticos nas suas próprias etiquetas e dispositivos.</p>
+    <div class="meta-row">
+      <span class="tag">Android 8+ &middot; NFC + BLE</span>
+      <span class="tag">Sem hardware externo</span>
+      <span class="tag">6 laboratórios</span>
+    </div>
+    <div class="ethics">
+      <h2>Regra número zero</h2>
+      <p><strong>Só nas suas coisas.</strong> Suas etiquetas, seus cartões, seus dispositivos BLE, na sua casa. Ler, clonar ou emular credencial de terceiros &mdash; crachá do trabalho, cartão do condomínio, tag de outra pessoa &mdash; é invasão e é crime. Este material é para aprender a tecnologia e testar a segurança do que é seu.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- MATRIX -->
+  <section id="matriz">
+    <div class="sec-head">
+      <span class="sec-num">01 &middot; Panorama</span>
+      <h2 class="sec-title">O que cada um faz</h2>
+      <p class="sec-sub">O Flipper carrega vários rádios num aparelho só. O celular tem só dois que interessam aqui: NFC (13.56&nbsp;MHz) e Bluetooth&nbsp;LE. Onde falta rádio, não tem software que resolva.</p>
+    </div>
+    <div class="matrix-scroll">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Capacidade</th>
+            <th class="dev">Flipper</th>
+            <th class="dev">Fliip</th>
+            <th>Na prática</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="cap-name">Sub-GHz</div><div class="cap-freq">300&ndash;928 MHz</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip no">NÃO</span></td>
+            <td class="cap-note">Controle de portão, alarme, sensores. Celular não tem esse rádio &mdash; impossível sem hardware externo.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">RFID baixa freq.</div><div class="cap-freq">125 kHz (LF)</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip no">NÃO</span></td>
+            <td class="cap-note">Crachás EM4100/HID antigos. O chip do celular opera em 13.56&nbsp;MHz, outra frequência.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">NFC &mdash; leitura</div><div class="cap-freq">13.56 MHz (HF)</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="cap-note">UID, tecnologia, ATQA/SAK, conteúdo NDEF. Terreno onde o celular é forte.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">NFC &mdash; escrita NDEF</div><div class="cap-freq">13.56 MHz</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="cap-note">Gravar URL, WiFi, texto, contato em tags NTAG graváveis.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">NFC &mdash; emulação</div><div class="cap-freq">13.56 MHz</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip partial">PARCIAL</span></td>
+            <td class="cap-note">Flipper emula UID+dados de vários tipos. Fliip faz HCE (cartão ISO-DEP) mas <b>não clona UID</b> &mdash; limite do Android.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">Infravermelho</div><div class="cap-freq">TV, ar-cond.</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip partial">SÓ SE TIVER</span></td>
+            <td class="cap-note">Depende de emissor IR físico. Poucos celulares (alguns Xiaomi) ainda têm; a maioria não.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">iButton / 1-Wire</div><div class="cap-freq">Dallas</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip no">NÃO</span></td>
+            <td class="cap-note">Chaves de contato metálico. Sem interface no celular.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">Bluetooth LE &mdash; scan/GATT</div><div class="cap-freq">2.4 GHz</div></td>
+            <td class="dev"><span class="chip partial">PARCIAL</span></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="cap-note">Aqui o celular ganha: varredura, serviços, ler/escrever características, assinar notificações.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">BadUSB (HID)</div><div class="cap-freq">USB</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip no">NÃO</span></td>
+            <td class="cap-note">Digitar comandos fingindo ser teclado. Precisa de modo gadget USB que o app não alcança.</td>
+          </tr>
+          <tr>
+            <td><div class="cap-name">GPIO / pinos</div><div class="cap-freq">Hardware</div></td>
+            <td class="dev"><span class="chip yes">SIM</span></td>
+            <td class="dev"><span class="chip no">NÃO</span></td>
+            <td class="cap-note">Ligar em circuitos, UART, lógica. Território de hardware dedicado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><i class="dot yes"></i> Faz bem</span>
+      <span><i class="dot partial"></i> Faz com limite</span>
+      <span><i class="dot no"></i> Precisa de hardware que o celular não tem</span>
+    </div>
+  </section>
+
+  <!-- LABS -->
+  <section id="labs">
+    <div class="sec-head">
+      <span class="sec-num">02 &middot; Mão na massa</span>
+      <h2 class="sec-title">Laboratórios com o Fliip</h2>
+      <p class="sec-sub">Em ordem de dificuldade. Faça na sequência &mdash; cada um usa um conceito do anterior. Tudo nas suas etiquetas e dispositivos.</p>
+    </div>
+    <div class="labs">
+
+      <article class="lab">
+        <div class="lab-top">
+          <span class="lab-idx">01</span>
+          <h3 class="lab-title">Inventário NFC da casa</h3>
+          <div class="lab-badges"><span class="badge mod">NFC · Read</span><span class="badge">fácil</span></div>
+        </div>
+        <p>Antes de mexer, entenda o que você tem. Junte tudo que aproxima: cartão de transporte, tag de produto, pulseira de evento, chaveiro de hotel, cartão por aproximação do banco.</p>
+        <ol>
+          <li>Abra <b>NFC &mdash; Read</b> e encoste cada item na traseira do celular.</li>
+          <li>Anote <code class="inline">UID</code>, <b>tipo</b> e a lista de <b>tecnologias</b>.</li>
+          <li>Compare: cartão de banco costuma ser <code class="inline">ISO 14443-A</code>; crachá comum, <code class="inline">MIFARE Classic</code>; tag de brinde, <code class="inline">NTAG</code>.</li>
+        </ol>
+        <div class="takeaway"><b>Aprendizado</b> UID é o número de série. <code class="inline">ATQA</code>/<code class="inline">SAK</code> revelam a família do chip. Cartão de banco por aproximação mostra só UID e tecnologia &mdash; nada de número ou dados sensíveis vaza numa leitura dessas.</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-top">
+          <span class="lab-idx">02</span>
+          <h3 class="lab-title">Escrever NDEF que faz algo</h3>
+          <div class="lab-badges"><span class="badge mod">NFC · Write</span><span class="badge">precisa NTAG</span></div>
+        </div>
+        <p>NDEF é o formato de dados que qualquer celular entende. Grave uma tag NTAG em branco e veja outro aparelho reagir sozinho.</p>
+        <ul>
+          <li><b>URL:</b> tipo URI &rarr; <code class="inline">https://exemplo.com</code>. Encoste e o Android abre o navegador.</li>
+          <li><b>Texto:</b> tipo Text &rarr; recado, número de série, nota de bancada.</li>
+          <li><b>MIME:</b> tipo custom pra apps que leem seu próprio formato.</li>
+        </ul>
+        <p>Depois releia no Lab 1 e confira o registro decodificado.</p>
+        <div class="takeaway"><b>Aprendizado</b> O prefixo da URI é comprimido num byte (por isso <code class="inline">https://</code> "some" no hex). Uma tag colada na mesa vira atalho físico &mdash; automação, não mágica.</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-top">
+          <span class="lab-idx">03</span>
+          <h3 class="lab-title">Clonar conteúdo &mdash; e ver o que NÃO clona</h3>
+          <div class="lab-badges"><span class="badge mod">Saved · Replay</span><span class="badge">conceito-chave</span></div>
+        </div>
+        <p>Este é o laboratório de segurança mais importante. Leia uma tag NTAG com conteúdo, salve, e reproduza numa tag em branco.</p>
+        <ol>
+          <li>Lab 1: leia uma tag NDEF &rarr; <b>Save</b> com um rótulo.</li>
+          <li>Tela <b>Saved tags</b> &rarr; <b>Replay</b> &rarr; encoste uma tag <b>nova</b>.</li>
+          <li>Releia a nova: mesmo conteúdo NDEF, <b>UID diferente</b>.</li>
+        </ol>
+        <div class="takeaway"><b>Aprendizado</b> Replay copia os <b>dados</b>, nunca o <b>UID</b> (o Android não deixa forjar). Por isso sistema de acesso sério valida pelo UID ou por cripto do chip &mdash; e resiste a cópia de dados. Sistema que confia só no NDEF é frágil. Essa é a lição que separa curiosidade de entendimento.</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-top">
+          <span class="lab-idx">04</span>
+          <h3 class="lab-title">Travar uma tag read-only</h3>
+          <div class="lab-badges"><span class="badge mod">NFC · Lock</span><span class="badge">irreversível</span></div>
+        </div>
+        <p>Aprenda o mecanismo de proteção &mdash; numa tag descartável, porque não tem volta.</p>
+        <ol>
+          <li>Grave algo (Lab 2). Confira lendo.</li>
+          <li>Seção vermelha <b>Lock read-only</b> &rarr; confirme &rarr; encoste a mesma tag.</li>
+          <li>Tente gravar de novo: o app recusa &mdash; agora é permanente.</li>
+        </ol>
+        <div class="takeaway"><b>Aprendizado</b> <code class="inline">makeReadOnly()</code> queima os lock bits fisicamente. Nenhum app do mundo destrava. É assim que fabricante "sela" uma tag de produção. Congela o conteúdo; não apaga.</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-top">
+          <span class="lab-idx">05</span>
+          <h3 class="lab-title">Reconhecimento BLE</h3>
+          <div class="lab-badges"><span class="badge mod">BLE · Scan/GATT</span><span class="badge">sem comprar nada</span></div>
+        </div>
+        <p>O laboratório mais fácil de começar &mdash; sua casa está cheia de alvos BLE seus: fone, relógio, lâmpada, balança, fechadura, TV.</p>
+        <ol>
+          <li><b>BLE &mdash; Scan</b> &rarr; conceda permissão &rarr; <b>Scan</b>. Veja nomes e <code class="inline">RSSI</code> (força do sinal &mdash; mais perto, menos negativo).</li>
+          <li>Toque um dispositivo &rarr; explore os serviços <b>GATT</b>.</li>
+          <li><b>Device Information (180a):</b> leia fabricante, modelo, firmware.</li>
+          <li><b>Battery (180f):</b> <b>Read</b> no nível de bateria &rarr; volta a %.</li>
+          <li>Característica com <code class="inline">NOTIFY</code> (ex.: batimento numa cinta cardíaca) &rarr; <b>Subscribe</b> &rarr; valores chegam ao vivo.</li>
+        </ol>
+        <div class="takeaway"><b>Aprendizado</b> GATT é a "árvore" de dados de todo periférico BLE. Subscribe usa o descriptor <code class="inline">CCCD (0x2902)</code>: o dispositivo empurra dado sozinho, sem polling. É assim que relógio manda batimento pro celular.</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-top">
+          <span class="lab-idx">06</span>
+          <h3 class="lab-title">Emular um cartão (HCE)</h3>
+          <div class="lab-badges"><span class="badge mod">NFC · HCE</span><span class="badge">precisa 2º leitor</span></div>
+        </div>
+        <p>Faça o celular <b>ser</b> um cartão ISO-DEP. Precisa de um segundo leitor: outro celular, ou um PC com PN532/ACR122U.</p>
+        <ol>
+          <li>Abra <b>NFC &mdash; Emulate (HCE)</b>, edite a mensagem do cartão.</li>
+          <li>Encoste no leitor que seleciona o AID <code class="inline">F04C4C494950</code>.</li>
+          <li>Veja o <b>log de APDU</b>: comando que entra, resposta que sai (<code class="inline">+ 0x9000</code> = OK).</li>
+        </ol>
+        <div class="takeaway"><b>Aprendizado</b> Cartão sem chip: o app responde os comandos APDU por software. É a base de carteira/pagamento por aproximação. AID é o "endereço" do applet que o leitor pede. Cartão demo &mdash; não é cópia de credencial real.</div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- KIT + WHY MOBILE LOSES -->
+  <section id="kit">
+    <div class="sec-head">
+      <span class="sec-num">03 &middot; Bancada</span>
+      <h2 class="sec-title">Kit e limites</h2>
+      <p class="sec-sub">Quase tudo acima roda com o que você já tem. O básico pago é uma cartela de tags graváveis.</p>
+    </div>
+    <div class="cols">
+      <div class="panel">
+        <h3>O que comprar</h3>
+        <ul class="kit">
+          <li><span class="k">Tags NTAG213/215/216 <small>graváveis, para Labs 2&ndash;4</small></span><span class="price">~R$1&ndash;3 /un</span></li>
+          <li><span class="k">Segundo celular <small>alvo BLE e leitor de HCE</small></span><span class="price">já tem</span></li>
+          <li><span class="k">App nRF Connect <small>simula sensor/servidor BLE e leitor NFC</small></span><span class="price">grátis</span></li>
+          <li><span class="k">Leitor PN532 ou ACR122U <small>opcional, para testar HCE via PC</small></span><span class="price">~R$40&ndash;120</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Onde o celular não chega</h3>
+        <p style="margin:0 0 12px;color:var(--ink-soft)">Não é limite do app &mdash; é falta de rádio no aparelho. Pra isso serve um Flipper (ou módulos avulsos):</p>
+        <ul style="margin:0;padding-left:18px;color:var(--ink-soft)">
+          <li><b>Sub-GHz</b> &mdash; portão, alarme (300&ndash;928 MHz)</li>
+          <li><b>RFID 125 kHz</b> &mdash; crachás LF antigos</li>
+          <li><b>Clone de UID</b> &mdash; Android bloqueia por design</li>
+          <li><b>iButton, GPIO, BadUSB</b> &mdash; interface física</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section id="glossario">
+    <div class="sec-head">
+      <span class="sec-num">04 &middot; Referência</span>
+      <h2 class="sec-title">Glossário de bancada</h2>
+      <p class="sec-sub">Os termos que aparecem nas telas do Fliip e em qualquer material de NFC/BLE.</p>
+    </div>
+    <dl class="glossary">
+      <div class="term"><dt>UID</dt><dd>Número de série único do chip. Lido, nunca forjado pelo celular.</dd></div>
+      <div class="term"><dt>NDEF</dt><dd>Formato padrão de dados numa tag: URL, texto, WiFi, contato.</dd></div>
+      <div class="term"><dt>ATQA / SAK</dt><dd>Respostas de identificação que revelam o tipo de chip NFC-A.</dd></div>
+      <div class="term"><dt>ISO-DEP</dt><dd>Protocolo de comando/resposta (ISO 14443-4) de cartões "inteligentes".</dd></div>
+      <div class="term"><dt>APDU</dt><dd>A unidade de comando trocada com um cartão ISO-DEP. Entra comando, sai resposta.</dd></div>
+      <div class="term"><dt>HCE</dt><dd>Host Card Emulation: o celular responde APDUs por software, virando um cartão.</dd></div>
+      <div class="term"><dt>AID</dt><dd>Endereço do applet que o leitor seleciona no cartão. O Fliip usa um AID de teste.</dd></div>
+      <div class="term"><dt>MIFARE Classic</dt><dd>Chip comum de crachá. Suporte parcial no celular; segurança fraca e conhecida.</dd></div>
+      <div class="term"><dt>GATT</dt><dd>A árvore de serviços e características de um periférico BLE.</dd></div>
+      <div class="term"><dt>CCCD (0x2902)</dt><dd>Descriptor que liga notify/indicate numa característica BLE.</dd></div>
+      <div class="term"><dt>RSSI</dt><dd>Força do sinal recebido em dBm. Mais perto de zero = mais perto de você.</dd></div>
+      <div class="term"><dt>Notify / Indicate</dt><dd>Dispositivo empurra o valor quando muda (indicate confirma; notify não).</dd></div>
+    </dl>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p><b>Fliip</b> &mdash; simulador de bancada estilo Flipper, só com o celular.</p>
+  <p>Material de estudo para hacking ético nas suas próprias ferramentas. Não teste o que não é seu.</p>
+</footer>
