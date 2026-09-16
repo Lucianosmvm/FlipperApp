@@ -7,12 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Nfc
+import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.SettingsRemote
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +37,7 @@ import androidx.navigation.NavController
 fun HomeScreen(nav: NavController) {
     Scaffold(topBar = { TopAppBar(title = { Text("Fliip") }) }) { pad ->
         Column(
-            Modifier.fillMaxSize().padding(pad).padding(top = 8.dp),
+            Modifier.fillMaxSize().padding(pad).verticalScroll(rememberScrollState()).padding(top = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
@@ -41,6 +45,8 @@ fun HomeScreen(nav: NavController) {
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             )
+            MenuCard("Phone diagnostics", "What this phone's hardware supports", Icons.Default.PhoneAndroid) { nav.navigate("diagnostics") }
+            MenuCard("IR — Remote control", "TV & AC remotes, import Flipper .ir files", Icons.Default.SettingsRemote) { nav.navigate("ir_home") }
             MenuCard("NFC — Read", "UID, tech, NDEF from a tag", Icons.Default.Nfc) { nav.navigate("nfc_read") }
             MenuCard("NFC — Write", "Write Text / URI / MIME to a tag", Icons.Default.Edit) { nav.navigate("nfc_write") }
             MenuCard("NFC — Saved tags", "Stored reads + replay NDEF to a tag", Icons.Default.Save) { nav.navigate("nfc_saved") }
@@ -48,7 +54,7 @@ fun HomeScreen(nav: NavController) {
             MenuCard("BLE — Scan & GATT", "Find devices, read/write characteristics", Icons.Default.Bluetooth) { nav.navigate("ble_scan") }
             Spacer(Modifier.height(8.dp))
             Text(
-                "Sub-GHz, 125 kHz RFID and IR need hardware this phone does not have — not included.",
+                "Sub-GHz and 125 kHz RFID need external hardware — not included. IR needs a phone with an IR emitter (see diagnostics).",
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(horizontal = 16.dp),
             )

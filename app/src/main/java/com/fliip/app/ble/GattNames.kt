@@ -19,6 +19,22 @@ object GattNames {
         "2a26" to "Firmware Revision",
         "2a37" to "Heart Rate Measurement",
         "2a6e" to "Temperature",
+        "1804" to "Tx Power",
+        "1805" to "Current Time",
+        "181a" to "Environmental Sensing",
+        "2a04" to "Preferred Connection Parameters",
+        "2a05" to "Service Changed",
+        "2a07" to "Tx Power Level",
+        "2a1c" to "Temperature Measurement",
+        "2a23" to "System ID",
+        "2a27" to "Hardware Revision",
+        "2a28" to "Software Revision",
+        "2a2b" to "Current Time",
+        "2a38" to "Body Sensor Location",
+        "2a50" to "PnP ID",
+        "2a6d" to "Pressure",
+        "2a6f" to "Humidity",
+        "2aa6" to "Central Address Resolution",
     )
 
     fun of(uuid: String): String {

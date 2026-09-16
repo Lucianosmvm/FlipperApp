@@ -131,8 +131,16 @@ private fun CharRow(
         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             ch.properties.forEach { AssistChip(onClick = {}, label = { Text(it, style = MaterialTheme.typography.labelSmall) }) }
         }
+        ch.decoded?.let {
+            Text(it, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyLarge)
+        }
         ch.value?.let {
-            Text(it, fontFamily = FontFamily.Monospace, style = MaterialTheme.typography.bodySmall)
+            Text(
+                "hex: $it",
+                fontFamily = FontFamily.Monospace,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             if ("READ" in ch.properties) TextButton(onClick = onRead) { Text("Read") }

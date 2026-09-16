@@ -55,12 +55,18 @@ class BleController(context: Context) {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             val dev = result.device
             val connectable = Build.VERSION.SDK_INT < Build.VERSION_CODES.O || result.isConnectable
+            val name = result.scanRecord?.deviceName ?: dev.name
+            val previous = found[dev.address]
+            // Adverts and scan responses carry different fields; don't lose a type we already worked out.
+            val type = DeviceClassifier.classify(result, name).takeIf { it != DeviceType.OTHER }
+                ?: previous?.type ?: DeviceType.OTHER
             found[dev.address] = ScannedDevice(
                 address = dev.address,
-                name = result.scanRecord?.deviceName ?: dev.name,
+                name = name ?: previous?.name,
                 rssi = result.rssi,
                 connectable = connectable,
                 lastSeenMs = System.currentTimeMillis(),
+                type = type,
             )
             _devices.value = found.values.sortedByDescending { it.rssi }
         }
@@ -264,25 +270,27 @@ class BleController(context: Context) {
     }
 
     private fun pushNotification(uuid: String, value: ByteArray) {
-        val hex = value.joinToString(" ") { "%02X".format(it) }
-        _services.value = _services.value.map { svc ->
-            svc.copy(characteristics = svc.characteristics.map { c ->
-                if (c.uuid == uuid) c.copy(value = hex) else c
-            })
-        }
-        log("notify ${short(uuid)} -> $hex")
+        log("notify ${short(uuid)} -> ${setCharValue(uuid, value)}")
     }
 
     private fun updateCharValue(uuid: String, value: ByteArray, status: Int) {
+        if (status != BluetoothGatt.GATT_SUCCESS) {
+            log("read ${short(uuid)} FAILED status=$status")
+            return
+        }
+        log("read ${short(uuid)} -> ${setCharValue(uuid, value)}")
+    }
+
+    /** Stores hex + decoded value on the characteristic; returns a log-friendly summary. */
+    private fun setCharValue(uuid: String, value: ByteArray): String {
         val hex = value.joinToString(" ") { "%02X".format(it) }
-        val text = value.toString(Charsets.UTF_8).filter { it.isLetterOrDigit() || it.isWhitespace() || it in "._-:/" }
-        val shown = "$hex" + if (text.isNotBlank()) "  ($text)" else ""
+        val decoded = GattDecoder.decode(uuid, value)
         _services.value = _services.value.map { svc ->
             svc.copy(characteristics = svc.characteristics.map { c ->
-                if (c.uuid == uuid) c.copy(value = shown) else c
+                if (c.uuid == uuid) c.copy(value = hex, decoded = decoded) else c
             })
         }
-        log("read ${short(uuid)} status=$status -> $shown")
+        return if (decoded != null) "$decoded  [$hex]" else hex
     }
 
     private fun propsOf(ch: BluetoothGattCharacteristic): List<String> {
